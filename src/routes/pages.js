@@ -1,6 +1,16 @@
 const router = require('express').Router();
 const prisma = require('../lib/prisma');
 
+// GET /api/pages  (list all pages for authenticated user)
+router.get('/', async (req, res) => {
+  const user_id = req.auth.payload.sub;
+  const pages = await prisma.page.findMany({
+    where: { user_id },
+    orderBy: { entry_date: 'desc' },
+  });
+  res.json(pages);
+});
+
 // GET /api/journals/:journalId/pages
 router.get('/:journalId/pages', async (req, res) => {
   const user_id = req.auth.payload.sub;
@@ -23,7 +33,7 @@ router.post('/:journalId/pages', async (req, res) => {
 });
 
 // GET /api/pages/:id
-router.get('/pages/:id', async (req, res) => {
+router.get('/:id', async (req, res) => {
   const user_id = req.auth.payload.sub;
   const page = await prisma.page.findFirst({ where: { id: req.params.id, user_id } });
   if (!page) return res.status(404).json({ error: 'Not found' });
@@ -31,7 +41,7 @@ router.get('/pages/:id', async (req, res) => {
 });
 
 // PUT /api/pages/:id
-router.put('/pages/:id', async (req, res) => {
+router.put('/:id', async (req, res) => {
   const user_id = req.auth.payload.sub;
   const existing = await prisma.page.findFirst({ where: { id: req.params.id, user_id } });
   if (!existing) return res.status(404).json({ error: 'Not found' });
@@ -40,7 +50,7 @@ router.put('/pages/:id', async (req, res) => {
 });
 
 // DELETE /api/pages/:id
-router.delete('/pages/:id', async (req, res) => {
+router.delete('/:id', async (req, res) => {
   const user_id = req.auth.payload.sub;
   const existing = await prisma.page.findFirst({ where: { id: req.params.id, user_id } });
   if (!existing) return res.status(404).json({ error: 'Not found' });
