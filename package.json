@@ -1,13 +1,14 @@
 {
   "name": "inkwell-api",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "",
   "main": "index.js",
   "scripts": {
     "start": "node src/index.js",
     "dev": "nodemon src/index.js",
     "db:migrate": "prisma migrate deploy",
-    "db:generate": "prisma generate"
+    "db:generate": "prisma generate",
+    "migrate:data": "node scripts/migrate.js"
   },
   "keywords": [],
   "author": "",
