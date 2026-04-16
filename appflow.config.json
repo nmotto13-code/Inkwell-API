@@ -1,0 +1,12 @@
+{
+  "apps": [
+    {
+      "appId": "97a73519",
+      "root": ".",
+      "dependencyInstallCommand": "npm install",
+      "webBuildCommand": "npm run build && npx cap copy ios",
+      "iosPath": "ios/App"
+    }
+  ]
+}
+
