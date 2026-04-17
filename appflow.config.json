@@ -4,9 +4,8 @@
       "appId": "97a73519",
       "root": ".",
       "dependencyInstallCommand": "npm install",
-      "webBuildCommand": "npm run build && npx cap copy ios",
+      "webBuildCommand": "npm run build && npx cap sync ios",
       "iosPath": "ios/App"
     }
   ]
 }
-

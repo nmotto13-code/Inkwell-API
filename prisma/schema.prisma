@@ -101,9 +101,27 @@ model UserProfile {
   notification_preference String?
   enrolled_tracks         String[]
   track_sensitivity       Json?
+  selected_modes          String[] @default([])
+  onboarding_preferences  Json?
+  daily_play_goal_minutes Int?
   onboarding_completed    Boolean  @default(false)
   created_date            DateTime @default(now())
   updated_date            DateTime @updatedAt
 
   @@map("user_profiles")
+}
+
+model ChildProfile {
+  id                  String   @id @default(uuid())
+  user_id             String
+  name                String
+  birthdate           DateTime
+  known_allergens     String[] @default([])
+  developmental_focus String[] @default([])
+  profile             Json?
+  created_date        DateTime @default(now())
+  updated_date        DateTime @updatedAt
+
+  @@index([user_id])
+  @@map("child_profiles")
 }

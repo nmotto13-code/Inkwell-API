@@ -1,5 +1,4 @@
-import { Sparkles, Button } from "lucide-react";
-import { useState } from "react";
+import { Sparkles } from "lucide-react";
 
 // Reflection feature disabled — no LLM backend configured
 export default function ReflectionCard({ userName, entries }) {

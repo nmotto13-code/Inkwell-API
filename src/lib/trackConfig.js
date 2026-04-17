@@ -1,0 +1,88 @@
+import {
+  BookHeart,
+  Brain,
+  Briefcase,
+  Feather,
+  HeartHandshake,
+  MoonStar,
+  PenLine,
+  Sparkles,
+} from 'lucide-react';
+
+export const TRACKS = {
+  emotional_wellness: {
+    id: 'emotional_wellness',
+    name: 'Emotional Wellness',
+    description: 'Process feelings and patterns with more clarity.',
+    icon: Brain,
+    bgColor: 'bg-sky-100',
+    color: 'text-sky-700',
+  },
+  gratitude: {
+    id: 'gratitude',
+    name: 'Gratitude',
+    description: 'Capture specific moments, people, and small wins.',
+    icon: Sparkles,
+    bgColor: 'bg-amber-100',
+    color: 'text-amber-700',
+  },
+  productivity: {
+    id: 'productivity',
+    name: 'Productivity',
+    description: 'Track goals, progress, and next steps.',
+    icon: Briefcase,
+    bgColor: 'bg-emerald-100',
+    color: 'text-emerald-700',
+  },
+  habit_tracking: {
+    id: 'habit_tracking',
+    name: 'Habit Tracking',
+    description: 'Log repeatable behaviors and consistency.',
+    icon: BookHeart,
+    bgColor: 'bg-rose-100',
+    color: 'text-rose-700',
+  },
+  dream_journal: {
+    id: 'dream_journal',
+    name: 'Dream Journal',
+    description: 'Write dreams down before they fade.',
+    icon: MoonStar,
+    bgColor: 'bg-violet-100',
+    color: 'text-violet-700',
+  },
+  creative_writing: {
+    id: 'creative_writing',
+    name: 'Creative Writing',
+    description: 'Freeform writing, stories, and fragments.',
+    icon: Feather,
+    bgColor: 'bg-orange-100',
+    color: 'text-orange-700',
+  },
+  family: {
+    id: 'family',
+    name: 'Family',
+    description: 'Reflect on family life, relationships, and home.',
+    icon: HeartHandshake,
+    bgColor: 'bg-pink-100',
+    color: 'text-pink-700',
+  },
+  self_discovery: {
+    id: 'self_discovery',
+    name: 'Self Discovery',
+    description: 'Explore identity, values, and direction.',
+    icon: PenLine,
+    bgColor: 'bg-indigo-100',
+    color: 'text-indigo-700',
+  },
+};
+
+export const MOOD_OPTIONS = [
+  { id: 'joyful', label: 'Joyful', emoji: '😊' },
+  { id: 'calm', label: 'Calm', emoji: '😌' },
+  { id: 'hopeful', label: 'Hopeful', emoji: '🙂' },
+  { id: 'sad', label: 'Sad', emoji: '😔' },
+  { id: 'anxious', label: 'Anxious', emoji: '😬' },
+  { id: 'angry', label: 'Angry', emoji: '😠' },
+  { id: 'tired', label: 'Tired', emoji: '😴' },
+  { id: 'confused', label: 'Confused', emoji: '😕' },
+];

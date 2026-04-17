@@ -8,7 +8,6 @@ import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import AddTrackModal from "../components/dashboard/AddTrackModal";
 import TrackDialog from "../components/dashboard/TrackDialog";
-import { Link } from "react-router-dom";
 
 function getGreeting(name) {
   const hour = new Date().getHours();
