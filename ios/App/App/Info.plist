@@ -22,10 +22,10 @@
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>CFBundleURLName</key>
-			<string>com.inkwell.app.auth</string>
+			<string>com.inkwell.apple.app.auth</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>com.inkwell.app</string>
+				<string>com.inkwell.apple.app</string>
 			</array>
 		</dict>
 	</array>
