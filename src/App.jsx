@@ -5,6 +5,7 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import { Auth0Provider, useAuth0 } from '@auth0/auth0-react';
 import { App as CapApp } from '@capacitor/app';
 import { useEffect } from 'react';
+import { DiagnosticsOverlay, diagnosticsEnabled, useDiagnosticCallbackLog } from '@/components/DiagnosticsOverlay';
 import PageNotFound from './lib/PageNotFound';
 import { AuthProvider, useAuth } from '@/lib/AuthContext';
 import UserNotRegisteredError from '@/components/UserNotRegisteredError';
@@ -73,28 +74,37 @@ const AuthenticatedApp = () => {
 
 const isNative = () => window.Capacitor?.isNativePlatform();
 
-function Auth0CallbackHandler() {
+function Auth0CallbackHandler({ onLog }) {
   const { handleRedirectCallback } = useAuth0();
 
   useEffect(() => {
-    if (!isNative()) return;
+    if (!isNative()) {
+      onLog?.('Not native — skipping appUrlOpen listener');
+      return;
+    }
+    onLog?.('Native detected — registering appUrlOpen listener');
     let listenerHandle;
     CapApp.addListener('appUrlOpen', async ({ url }) => {
+      onLog?.(`appUrlOpen received: ${url}`);
       if (url.includes('callback')) {
         try {
+          onLog?.('Calling handleRedirectCallback…');
           await handleRedirectCallback(url);
+          onLog?.('handleRedirectCallback succeeded');
         } catch (e) {
+          onLog?.(`handleRedirectCallback error: ${e.message}`);
           console.error('Auth0 callback error', e);
         }
       }
     }).then(handle => { listenerHandle = handle; });
     return () => { listenerHandle?.remove(); };
-  }, [handleRedirectCallback]);
+  }, [handleRedirectCallback, onLog]);
 
   return null;
 }
 
 function App() {
+  const { callbackLog, addLog } = useDiagnosticCallbackLog();
   const redirectUri = isNative()
     ? `${import.meta.env.VITE_AUTH0_CALLBACK_SCHEME}://callback`
     : window.location.origin;
@@ -105,7 +115,8 @@ function App() {
       clientId={import.meta.env.VITE_AUTH0_CLIENT_ID}
       authorizationParams={{ redirect_uri: redirectUri, audience: 'https://api.inkwell.app' }}
     >
-      <Auth0CallbackHandler />
+      <Auth0CallbackHandler onLog={diagnosticsEnabled ? addLog : undefined} />
+      {diagnosticsEnabled && <DiagnosticsOverlay callbackLog={callbackLog} />}
       <AuthProvider>
         <QueryClientProvider client={queryClientInstance}>
           <Router>
