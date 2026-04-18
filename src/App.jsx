@@ -2,7 +2,9 @@ import { Toaster } from "@/components/ui/toaster"
 import { QueryClientProvider } from '@tanstack/react-query'
 import { queryClientInstance } from '@/lib/query-client'
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import { Auth0Provider } from '@auth0/auth0-react';
+import { Auth0Provider, useAuth0 } from '@auth0/auth0-react';
+import { App as CapApp } from '@capacitor/app';
+import { useEffect } from 'react';
 import PageNotFound from './lib/PageNotFound';
 import { AuthProvider, useAuth } from '@/lib/AuthContext';
 import UserNotRegisteredError from '@/components/UserNotRegisteredError';
@@ -71,6 +73,27 @@ const AuthenticatedApp = () => {
 
 const isNative = () => window.Capacitor?.isNativePlatform();
 
+function Auth0CallbackHandler() {
+  const { handleRedirectCallback } = useAuth0();
+
+  useEffect(() => {
+    if (!isNative()) return;
+    let listenerHandle;
+    CapApp.addListener('appUrlOpen', async ({ url }) => {
+      if (url.includes('callback')) {
+        try {
+          await handleRedirectCallback(url);
+        } catch (e) {
+          console.error('Auth0 callback error', e);
+        }
+      }
+    }).then(handle => { listenerHandle = handle; });
+    return () => { listenerHandle?.remove(); };
+  }, [handleRedirectCallback]);
+
+  return null;
+}
+
 function App() {
   const redirectUri = isNative()
     ? `${import.meta.env.VITE_AUTH0_CALLBACK_SCHEME}://callback`
@@ -82,6 +105,7 @@ function App() {
       clientId={import.meta.env.VITE_AUTH0_CLIENT_ID}
       authorizationParams={{ redirect_uri: redirectUri, audience: 'https://api.inkwell.app' }}
     >
+      <Auth0CallbackHandler />
       <AuthProvider>
         <QueryClientProvider client={queryClientInstance}>
           <Router>
